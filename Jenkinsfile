@@ -13,10 +13,18 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh 'gradle build'  // Run Maven build
+    steps {
+        script {
+            // Get the path to the Gradle installation provided by Jenkins' tool auto-installation
+            def gradleHome = tool 'Gradle' // 'Gradle' is the name configured in Jenkins Global Tool Configuration
+            env.PATH = "${gradleHome}/bin:${env.PATH}"
+            // Now, ensure you're in the correct workspace directory
+            dir("${workspace}") { // Ensure you are in the repository's root
+                sh 'gradle build'
             }
         }
+    }
+}
 
        stage('Test') {
            steps {
