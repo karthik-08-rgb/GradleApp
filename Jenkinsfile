@@ -12,14 +12,19 @@ pipeline {
             }
         }
 
-        stage('Build') {
+      stage('Build') {
     steps {
         script {
             // Get the path to the Gradle installation provided by Jenkins' tool auto-installation
-            def gradleHome = tool 'Gradle' // 'Gradle' is the name configured in Jenkins Global Tool Configuration
+            // Assign the path returned by 'tool' to a variable
+            def gradleHome = tool 'Gradle' // 'Gradle' should match the name in Jenkins Global Tool Configuration
+
+            // Explicitly add the Gradle bin directory to the PATH environment variable
             env.PATH = "${gradleHome}/bin:${env.PATH}"
-            // Now, ensure you're in the correct workspace directory
-            dir("${workspace}") { // Ensure you are in the repository's root
+
+            // Ensure you are in the correct workspace directory before running the build command
+            dir("${workspace}") {
+                // Now, try running gradle build. It should find the correct executable via the updated PATH.
                 sh 'gradle build'
             }
         }
