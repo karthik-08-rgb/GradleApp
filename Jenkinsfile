@@ -15,11 +15,10 @@ pipeline {
       stage('Build') {
     steps {
         script {
-        
-                sh 'gradle build'
-            }
+            sh './gradlew build' // Change from 'gradle build'
         }
     }
+}
 
 
        stage('Test') {
