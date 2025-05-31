@@ -14,9 +14,7 @@ pipeline {
 
       stage('Build') {
     steps {
-        script {
-            sh './gradlew build' // Change from 'gradle build'
-        }
+        sh 'gradle build'
     }
 }
 
